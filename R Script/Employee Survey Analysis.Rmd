@@ -1,18 +1,105 @@
 ---
-title: "Employee Survery Analysis"
+title: "Employee Survey Analysis"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+For our Employee Survey Analysis we'll break the project into three steps
+ 
+ Step 1: EDA
+  - loading our data into our working environment
+  - load necessary packages for project
+  - understanding our data (dimensions/rows & columns/data types etc.)
+  
+  
+  Step 2: Data Transformation
+  - Should know which transformations are needed based on above step
+  - Applying data transformation steps into new dataframe
+  - Checking results for desired outcome
+  
+  Steps 3: Data Analysis
+  - Estimating internal consistency reliability using Cronbach's Alpha (ensuring there's intercorrelation among results by theme)
+  - Creating a composite variable based on a multi-item measure (aggregating scores by theme)
+ 
+====================================================================================================
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+Step 1: EDA
+```{r }
+# packages used
 
-```{r}
-plot(cars)
+library(dplyr)
+library(tidyverse)
+library(psych)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+```{r }
+# data used
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+## first survey responses
+EmpSurvData<-read.csv("https://raw.githubusercontent.com/dlopez972/Employee_Survey_Analysis/main/sample_employeesurvey_table.csv")
+
+
+
+```
+
+
+
+```{r }
+# initial overview of data
+
+head(EmpSurvData)
+summary(EmpSurvData)
+
+
+# looks like we have 
+  ## dept
+  ## emp ID
+  ## emp mgr id
+  ## three categories of the questions (turnover intention/job satisfaction/engagement)
+
+
+# response rate by unit
+
+EmpSurvData %>% 
+  group_by(Unit) %>% 
+  summarize("Response Rate" = n()) %>% 
+  ungroup()
+
+```
+
+Time to aggregate & segment our data, to understand our outcomes better
+
+
+Response count by dept sort by response count
+
+```{r }
+
+EmpSurvData %>% 
+  group_by(Dept. = Unit) %>% 
+  summarize(ResponseCount = n()) %>% 
+  ungroup() %>%
+  arrange(ResponseCount)
+ 
+
+```
+ Response count by dept & mgr
+```{r}
+
+EmpSurvData %>% 
+  group_by("Dept." = Unit, "Dept. Mgr" = Supervisor) %>% 
+  summarize(ResponseCount = n()) %>% 
+  ungroup()
+```
+
+Let's add two aggregate columns to a new dataframe
+
+```{r}
+
+agg_empsurvdata<- EmpSurvData %>% 
+  group_by(Unit) %>% 
+  mutate("Response Count" = n()) %>% 
+  ungroup()
+
+head(agg_empsurvdata)
+```
+
