@@ -1,12 +1,11 @@
 Question ID,Question,Theme
-Q1,??,Job Satisfaction
-Q2,??,Job Satisfaction
-Q3,??,Job Satisfaction
-Q4,??,Turnover
-Q5,??,Turnover
-Q6,??,Turnover
-Q7,??,Engagement
-Q8,??,Engagement
-Q9,??,Engagement
-Q10,??,Engagement
-Q11,??,Engagement
+Q1,I enjoy completing my daily work for my job.,Job Satisfaction
+Q2,I am satisfied with my job.,Job Satisfaction
+Q3,I am satisfied with my work and with my direct supervisor.,Job Satisfaction
+Q4,I regularly think about leaving this organization.,Turnover
+Q5,I plan on quitting this job within the next year.,Turnover
+Q6,I regularly search for new jobs outside of this organization.,Turnover
+Q7,"When I’m working, I’m full of energy.",Engagement
+Q8,I complete my work with enthusiasm.,Engagement
+Q9,I find inspiration in my work.,Engagement
+Q10,I have no problem working for long periods of time.,Engagement
