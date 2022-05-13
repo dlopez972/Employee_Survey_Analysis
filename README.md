@@ -53,7 +53,12 @@ The dataset consists of 18 variables (columns), 10 are our survey questions and 
   - 3 = Hispanic
   - 4 = Multi-Racial
   - 5 = Unknown
-- Survey Questions, please refer to survey key for questions
+- Response
+ - 1 = Strong Disagree
+ - 2 = Disagree
+ - 3 = Neutral
+ - 4 = Agree
+ - 5 = Strongly Agree
 
 
 
