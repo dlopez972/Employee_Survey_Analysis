@@ -47,6 +47,12 @@ The dataset consists of 18 variables (columns), 10 are our survey questions and 
   - 1 = Female
 - Age
 - Ethnicity
+  - 0 = Black
+  - 1 = Asian
+  - 2 = White
+  - 3 = Hispanic
+  - 4 = Multi-Racial
+  - 5 = Unknown
 - Survey Questions, please refer to survey key for questions
 
 
