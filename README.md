@@ -21,7 +21,7 @@ Data Definitions/Description
 =============================================================
 
 EmployeeSurveyData:
-The dataset consists of 18 variables (columns) and 199 observations (records). Each record represents an employees response which the following attributes: 
+The dataset consists of 18 variables (columns), 10 are our survey questions and 8 are employee attributes, and 199 observations (records). Each record represents an employees response which the following attributes: 
 
 - Employee ID
 - Unit 
