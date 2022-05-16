@@ -68,7 +68,7 @@ Step 1:
 Basic data EDA
 
 Step 2: 
-Data transformations, if needed
+Data transformations for visualization layer
 
 Step 3: 
 Calculate Internal Consistency Reliability using Cronbach's Alpha
