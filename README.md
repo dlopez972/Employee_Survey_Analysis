@@ -25,6 +25,8 @@ The dataset consists of 18 variables (columns), 10 are our survey questions and 
 
 - Employee ID
 - Unit 
+- Age
+- Tenure (Company)
 - Management Level (1-9) 
   - 1 = Jr. Associate
   - 2 = Associate
@@ -41,11 +43,9 @@ The dataset consists of 18 variables (columns), 10 are our survey questions and 
   - 3 = Meeting Expectations
   - 4 = Exceeding Expectations
   - 5 = Excellent
-- Tenure
 - Gender
   - 0 = Male
   - 1 = Female
-- Age
 - Ethnicity
   - 0 = Black
   - 1 = Asian
