@@ -64,11 +64,10 @@ The dataset consists of 18 variables (columns), 10 are our survey questions and 
 
 Approach
 =============================================================
-Step 1: 
-Basic data EDA
+Part 1: Import & Inspect data
 
-Step 2: 
-Data transformations for visualization layer
+Part 2: Clean & Transform data
 
-Step 3: 
-Calculate Internal Consistency Reliability using Cronbach's Alpha
+Part 3: EDA
+
+Part 4: Visulation
