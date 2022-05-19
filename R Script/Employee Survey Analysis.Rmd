@@ -3,103 +3,142 @@ title: "Employee Survey Analysis"
 output: html_notebook
 ---
 
-For our Employee Survey Analysis we'll break the project into three steps
+For our Employee Survey Analysis we'll break the project into a couple of parts
  
- Step 1: EDA
+ Part 1: Import & Inspect our data
   - loading our data into our working environment
   - load necessary packages for project
-  - understanding our data (dimensions/rows & columns/data types etc.)
+  - check quality of data (nulls/errors/duplicates etc.)
   
   
-  Step 2: Data Transformation
-  - Should know which transformations are needed based on above step
-  - Applying data transformation steps into new dataframe
-  - Checking results for desired outcome
+ Part 2: Clean & Transform our data
+  - Rename/remove columns & filter any data not needed
+  - Create/Recode columns needed for analysis
+  - Pivot columns in order to pass into BI tools
+  - BONUS: Data Imputation using MICE
   
-  Steps 3: Data Analysis
+ Part 3: Data Analysis
   - Estimating internal consistency reliability using Cronbach's Alpha (ensuring there's intercorrelation among results by theme)
   - Creating a composite variable based on a multi-item measure (aggregating scores by theme)
  
 ====================================================================================================
 
-Step 1: EDA
+Part 1: Import & Inspect 
+
 ```{r }
-# packages used
+
+## loading data
+survey_raw<-read.csv("https://raw.githubusercontent.com/dlopez972/Employee_Survey_Analysis/main/sample_employeesurvey_table.csv")
+
+surv_key_raw<-read.csv("https://raw.githubusercontent.com/dlopez972/Employee_Survey_Analysis/main/sample_employeesurvey_key.csv")
+
+## inspecting data
+head(survey_raw)
+summary(survey_raw)
+length(unique(survey_raw$EID))
+
+                        ## 199 records w/ 20 columns
+                        ## Issue 1: First & Last Name all null values (drop columns)
+                        ## Issues 2: See null values for 43 records in their responses 
+                        ## checked for duplicate EIDs, none to be found
+
+## packages used
 
 library(dplyr)
 library(tidyverse)
+library(mice)
 library(psych)
 ```
 
 
-```{r }
-# data used
+====================================================================================================
 
-## first survey responses
-EmpSurvData<-read.csv("https://raw.githubusercontent.com/dlopez972/Employee_Survey_Analysis/main/sample_employeesurvey_table.csv")
-
-
-
-```
-
-
-
-```{r }
-# initial overview of data
-
-head(EmpSurvData)
-summary(EmpSurvData)
-
-
-# looks like we have 
-  ## dept
-  ## emp ID
-  ## emp mgr id
-  ## three categories of the questions (turnover intention/job satisfaction/engagement)
-
-
-# response rate by unit
-
-EmpSurvData %>% 
-  group_by(Unit) %>% 
-  summarize("Response Rate" = n()) %>% 
-  ungroup()
-
-```
-
-Time to aggregate & segment our data, to understand our outcomes better
-
-
-Response count by dept sort by response count
-
-```{r }
-
-EmpSurvData %>% 
-  group_by(Dept. = Unit) %>% 
-  summarize(ResponseCount = n()) %>% 
-  ungroup() %>%
-  arrange(ResponseCount)
+Part 2: Clean & Transform
  
+Steps for transformations: 
+ step 1: pivot question columns
+ step 2: replace values for certain columns
+ step 3: create new column "Responded?"
+ step 4: remove unnecessary columns
+ step 5: rename remaining columns
+ Bonus Step: Data imputation 
 
-```
- Response count by dept & mgr
-```{r}
-
-EmpSurvData %>% 
-  group_by("Dept." = Unit, "Dept. Mgr" = Supervisor) %>% 
-  summarize(ResponseCount = n()) %>% 
-  ungroup()
-```
-
-Let's add two aggregate columns to a new dataframe
 
 ```{r}
+# let's first create a copy of our data, and keep the raw
+survey_copy<-survey_raw
 
-agg_empsurvdata<- EmpSurvData %>% 
-  group_by(Unit) %>% 
-  mutate("Response Count" = n()) %>% 
-  ungroup()
+# now we can start our steps
 
-head(agg_empsurvdata)
+survey_transformed <- survey_copy %>% 
+  select(-First.Name, -Last.Name) %>% 
+  pivot_longer(starts_with("Q"), names_to = "Questions", values_to = "Response") %>% 
+  mutate(
+    "Performance Score" = Performance, 
+    Gender = case_when(Gender == 1 ~ "Female",
+                       Gender == 0 ~ "Male",
+                       TRUE ~ "Unknown"),
+    Ethnicity = case_when(Ethnicity == 0 ~ "Black",
+                          Ethnicity == 1 ~ "Asian",
+                          Ethnicity == 2 ~ "White",
+                          Ethnicity == 3 ~ "Hispanic",
+                          Ethnicity == 4 ~ "Multi-Racial",
+                          TRUE ~ "Unknown" ),
+    Mgmt.Level = case_when(Mgmt.Level == 1 ~ "Jr. Associate",
+                           Mgmt.Level == 2 ~ "Associate",
+                           Mgmt.Level == 3 ~ "Sr. Associate",
+                           Mgmt.Level == 4 ~ "Principal Associate",
+                           Mgmt.Level == 5 ~ "Manager",
+                           Mgmt.Level == 6 ~ "Sr. Manager",
+                           Mgmt.Level == 7 ~ "Director",
+                           Mgmt.Level == 8 ~ "Sr. Director",
+                           Mgmt.Level == 9 ~ "VP"),
+    Performance  = case_when(Performance  == 1 ~ "Needs Improvement",
+                            Performance == 2 ~ "Below Expectations",
+                            Performance == 3 ~ "Meeting Expectations",
+                            Performance == 4 ~ "Exceeding Expectations",
+                            Performance == 5 ~ "Excellent"), 
+    "Responded?" = ifelse(is.na(Response),0,1)
+    )
+
+head(survey_transformed)
+survey_transformed
+summary(survey_transformed)
+
+
+-----------------------------
+  
+## Bonus: Data Imputation
+
+md.pattern(survey_copy)
+
+survey_imputed <- mice(survey_copy, m=5,method = "rf")
+summary(survey_imputed)
+survey_imputed$imp$Q5
+
+
+```
+
+
+
+
+
+
+====================================================================================================
+
+Part 3: Calculate Internal Consistency Reliability using Cronbach's Alpha
+```{r}
+view(EmpSurvKey)
+
+
+jobsat<-alpha(EmpSurvData[,c("Q1","Q2","Q3")])
+head(jobsat)
+
+turnover<-alpha(EmpSurvData[,c("Q4","Q5","Q6")])
+head(turnover)
+
+engagement<-alpha(EmpSurvData[,c("Q7","Q8","Q9","Q10")])
+head(engagement)
+
 ```
 
