@@ -54,11 +54,11 @@ The dataset consists of 18 variables (columns), 10 are our survey questions and 
   - 4 = Multi-Racial
   - 5 = Unknown
 - Response
- - 1 = Strongly Disagree
- - 2 = Disagree
- - 3 = Neutral
- - 4 = Agree
- - 5 = Strongly Agree
+  - 1 = Strongly Disagree
+  - 2 = Disagree
+  - 3 = Neutral
+  - 4 = Agree
+  - 5 = Strongly Agree
 
 
 
