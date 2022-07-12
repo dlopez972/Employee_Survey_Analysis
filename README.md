@@ -1,7 +1,7 @@
 Employee Survey Analysis
 =============================================================
 
-Employee surveys are a very common practice among HR teams in organizations in order to gather information on employees perceptions of their thoughts, feelings, and behaviors. Typically employee surveys can consist of two type of questions, open ended questions which responses would be open text (e.g. Please describe your work life balance.) or close ended questions with a fixed response (e.g. on a scale of 1 to 5, how satisfied are you with your manager)
+Employee surveys are a very common practice among HR teams in organizations in order to gather information on employees perceptions of their thoughts, feelings, and behaviors around the workplace and their co-workers. Typically employee surveys can consist of two type of questions, open ended questions which responses would be open text (e.g. Please describe your work life balance.) or close ended questions with a fixed response (e.g. on a scale of 1 to 5, how satisfied are you with your manager)
 
 This sample employee survey consist of 10 closed ended questions with a 1 (strongly disagree) through 5 (strongly agree) scale, as well as a few attributes about the employees themselves.  The goal of this project is to better understand the survey data and examine results alongside the employee attributes to help explore sentiment around certain employee populations. To see if the responses themselves have internal consistency reliability along their respective theme using Cronbachs Alpha, this is a measure of the extent to which the group (theme) of questions are related. 
                             
